@@ -207,6 +207,20 @@ input[type=range]{width:100%;accent-color:var(--accent)}
 .linkbtn{background:none;border:0;color:var(--accent);font-weight:500;padding:4px 0;align-self:flex-start}
 .msg{font-size:13.5px;padding:10px 12px;border-radius:10px;background:var(--accent-soft);color:var(--ink)}
 .msg.err{background:color-mix(in srgb,var(--danger) 14%,transparent)}
+.kv{width:100%;border-collapse:collapse;font-size:14px}
+.kv td{padding:9px 6px;border-bottom:1px solid var(--line);vertical-align:top}
+.kv td:first-child{color:var(--muted);width:42%;font-size:13px}
+.kv td:last-child{font-family:var(--f-mono);font-size:13px;word-break:break-word}
+.chat{display:flex;flex-direction:column;gap:10px}
+.bub{padding:10px 12px;border-radius:12px;max-width:92%;white-space:pre-wrap;line-height:1.45;font-size:14.5px}
+.bub.q{align-self:flex-end;background:var(--accent);color:var(--accent-ink)}
+.bub.a{align-self:flex-start;background:var(--surface);border:1px solid var(--line)}
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.chips button{border:1px solid var(--line);background:var(--surface);border-radius:16px;padding:6px 12px;font-size:13px}
+.cmp{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.cmp figure{margin:0;display:flex;flex-direction:column;gap:4px;min-width:0}
+.cmp img{width:100%;border:1px solid var(--line);border-radius:6px;background:#fff}
+.cmp figcaption{font-family:var(--f-mono);font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
 .field input[type=email],.field input[type=password]{height:44px;border:1px solid var(--line);border-radius:10px;background:var(--surface);padding:0 12px;width:100%}
 </style>
 
@@ -215,7 +229,7 @@ input[type=range]{width:100%;accent-color:var(--accent)}
   <!-- HOME -->
   <section id="s-home">
     <header class="top wrap">
-      <div class="brand"><span class="brand-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 8V5a1 1 0 0 1 1-1h3M16 4h3a1 1 0 0 1 1 1v3M20 16v3a1 1 0 0 1-1 1h-3M8 20H5a1 1 0 0 1-1-1v-3M7 12h10"/></svg></span>ScanDirect<small>v2</small></div>
+      <div class="brand"><span class="brand-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 8V5a1 1 0 0 1 1-1h3M16 4h3a1 1 0 0 1 1 1v3M20 16v3a1 1 0 0 1-1 1h-3M8 20H5a1 1 0 0 1-1-1v-3M7 12h10"/></svg></span>ScanDirect<small>v4</small></div>
       <button class="acct" id="acct" hidden aria-label="Compte et sauvegarde"><span class="av" id="acct-av"></span><span class="t" id="acct-t">Se connecter</span><span class="dot" id="syncdot" hidden></span></button>
     </header>
     <main class="wrap">
@@ -270,7 +284,7 @@ input[type=range]{width:100%;accent-color:var(--accent)}
   <div class="actions" id="docbar" hidden>
     <div class="bar">
       <button data-d="share"><svg class="i" viewBox="0 0 24 24"><circle cx="18" cy="5" r="2.5"/><circle cx="6" cy="12" r="2.5"/><circle cx="18" cy="19" r="2.5"/><path d="m8.2 10.8 7.6-4.4M8.2 13.2l7.6 4.4"/></svg>Partager</button>
-      <button data-d="ocr"><svg class="i" viewBox="0 0 24 24"><path d="M4 7V4h16v3M9 20h6M12 4v16"/></svg>Texte</button>
+      <button data-d="ocr"><svg class="i" viewBox="0 0 24 24"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8zM19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8z"/></svg>IA</button>
       <button data-d="pdf" class="hl"><svg class="i" viewBox="0 0 24 24"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg>PDF</button>
       <button data-d="sign"><svg class="i" viewBox="0 0 24 24"><path d="M3 19c3 0 4-6 6-6s1 4 3 4 2-3 4-3 2 2 5 2"/><path d="m14 4 4 4-7 7H7v-4z"/></svg>Signer</button>
       <button data-d="more"><svg class="i" viewBox="0 0 24 24"><circle cx="5" cy="12" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/></svg>Plus</button>
@@ -383,6 +397,13 @@ const I = {
   chat:'<svg class="i" viewBox="0 0 24 24"><path d="M4 20l1.4-4A8 8 0 1 1 8 18.6z"/><path d="M9 10.5c.5 2 2 3.5 4 4l1.2-1.2 2 1-.6 1.6c-3.5 0-7-3.5-7-7l1.6-.6 1 2z"/></svg>',
   user:'<svg class="i" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>',
   cloud:'<svg class="i" viewBox="0 0 24 24"><path d="M7 18h10a4 4 0 0 0 .5-8A6 6 0 0 0 6 11a3.5 3.5 0 0 0 1 7z"/></svg>',
+  spark:'<svg class="i" viewBox="0 0 24 24"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8zM19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8z"/></svg>',
+  lock:'<svg class="i" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>',
+  cut:'<svg class="i" viewBox="0 0 24 24"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M8.6 7.6 20 18M8.6 16.4 20 6"/></svg>',
+  grid:'<svg class="i" viewBox="0 0 24 24"><rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><rect x="13" y="13" width="7" height="7" rx="1.5"/></svg>',
+  link:'<svg class="i" viewBox="0 0 24 24"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></svg>',
+  card:'<svg class="i" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="11" r="2"/><path d="M5.5 16c.6-1.5 1.7-2.2 3-2.2s2.4.7 3 2.2M14 10h4M14 13h4"/></svg>',
+  ask:'<svg class="i" viewBox="0 0 24 24"><path d="M4 5h16v11H9l-5 4z"/><path d="M10 9a2 2 0 1 1 3 1.7c-.6.3-1 .8-1 1.3M12 14.5v.01"/></svg>',
   stack:'<svg class="i" viewBox="0 0 24 24"><path d="M7 3h10v14H7z"/><path d="M4 6v15h12"/></svg>',
 };
 
@@ -774,7 +795,7 @@ async function blobToCanvas(blob, max){ return fileToCanvas(blob, max || 4000); 
 
 /* ---------- PDF building ---------- */
 const FORMATS = { a4: [210, 297], letter: [215.9, 279.4] };
-async function buildPdf(blobs, { format='a4', quality='standard' } = {}, onProgress){
+async function buildPdf(blobs, { format='a4', quality='standard', password='' } = {}, onProgress){
   const Q = { high: [2600, .92], standard: [1900, .82], compact: [1300, .62] }[quality] || [1900, .82];
   const { jsPDF } = window.jspdf; let pdf = null;
   for (let i = 0; i < blobs.length; i++){
@@ -784,7 +805,7 @@ async function buildPdf(blobs, { format='a4', quality='standard' } = {}, onProgr
     if (format === 'fit'){ pw = 210; ph = 210*c.height/c.width; if (land){ ph = 210; pw = 210*c.width/c.height; } }
     else { const [a, b] = FORMATS[format] || FORMATS.a4; pw = land ? b : a; ph = land ? a : b; }
     const orient = pw > ph ? 'l' : 'p';
-    if (!pdf) pdf = new jsPDF({ unit: 'mm', format: [pw, ph], orientation: orient, compress: true });
+    if (!pdf) pdf = new jsPDF({ unit: 'mm', format: [pw, ph], orientation: orient, compress: true, ...(password ? { encryption: { userPassword: password, ownerPassword: password + '·' + uid(), userPermissions: ['print'] } } : {}) });
     else pdf.addPage([pw, ph], orient);
     const s = Math.min(pw/c.width, ph/c.height), iw = c.width*s, ih = c.height*s;
     pdf.addImage(data, 'JPEG', (pw - iw)/2, (ph - ih)/2, iw, ih, undefined, 'FAST');
@@ -892,6 +913,7 @@ $('#fab').addEventListener('click', () => scanSheet(null));
 function scanSheet(targetId){
   sheet(`<h2>${targetId ? 'Ajouter des pages' : 'Nouveau scan'}</h2><div class="menu">
     <button data-k="camera"><span class="ico">${I.cam}</span><span>Prendre une photo<small>Ouvre l'appareil photo du téléphone</small></span></button>
+    <button data-k="idcard"><span class="ico">${I.card}</span><span>Pièce d'identité<small>Recto et verso de la carte sur une seule page A4</small></span></button>
     <button data-k="batch"><span class="ico">${I.stack}</span><span>Scan par lot<small>Plusieurs pages d'affilée, recadrage et filtre automatiques</small></span></button>
     <button data-k="gallery"><span class="ico">${I.img}</span><span>Importer des images<small>Une ou plusieurs photos, recadrées une par une</small></span></button>
     ${targetId ? '' : `<button data-k="pdf"><span class="ico">${I.pdf}</span><span>Importer un PDF<small>Chaque page devient modifiable</small></span></button>`}
@@ -911,6 +933,7 @@ document.addEventListener('keydown', e => { if (e.key === 'Escape') closeSheet()
 const inCam = $('#in-camera'), inGal = $('#in-gallery');
 function startScan(targetId, src){
   S.session = { target: targetId, pages: [], queue: [], total: 0, batch: [] };
+  if (src === 'idcard'){ S.session.idcard = true; if (LIVE_CAM){ CAM.mode = 'single'; openCam(); } else inCam.click(); return; }
   if (src === 'batch'){ if (LIVE_CAM){ setCamMode('batch'); openCam(); } else { S.session.auto = true; inGal.click(); } return; }
   if (src === 'camera' && LIVE_CAM) setCamMode(lsGet('sd-cammode') === 'batch' ? 'batch' : 'single');
   if (src === 'camera' && LIVE_CAM) openCam(); else (src === 'camera' ? inCam : inGal).click();
@@ -936,9 +959,21 @@ function closeEditors(){ closeCam(); $('#crop').hidden = true; $('#filt').hidden
 async function finishSession(){
   const ss = S.session; closeEditors(); S.session = null; if (!ss || !ss.pages.length) return;
   let d = ss.target && S.docs.find(x => x.id === ss.target);
+  if (ss.idcard) ss.pages = [await composeIdPage(ss.pages)];
   if (d){ d.pages.push(...ss.pages); d.updated = Date.now(); }
-  else { d = { id: uid(), name: 'Scan ' + new Intl.DateTimeFormat('fr-FR', {day:'2-digit',month:'2-digit',year:'numeric'}).format(Date.now()) + ' ' + new Date().toTimeString().slice(0,5).replace(':','h'), created: Date.now(), updated: Date.now(), folderId: currentFolderId(), pages: ss.pages }; S.docs.push(d); }
+  else { d = { id: uid(), name: (ss.idcard ? "Pièce d'identité " : 'Scan ') + new Intl.DateTimeFormat('fr-FR', {day:'2-digit',month:'2-digit',year:'numeric'}).format(Date.now()) + ' ' + new Date().toTimeString().slice(0,5).replace(':','h'), created: Date.now(), updated: Date.now(), folderId: currentFolderId(), pages: ss.pages }; S.docs.push(d); }
   await Store.put(d); openDoc(d.id); toast(ss.pages.length + (ss.pages.length > 1 ? ' pages enregistrées' : ' page enregistrée'));
+}
+/* Recto + verso of an ID card at real size (85.6 mm) on one A4 page, 200 dpi. */
+async function composeIdPage(pages){
+  const k = 200/25.4, W = Math.round(210*k), H = Math.round(297*k), L = 85.6*k;
+  const c = mk(W, H), x = c.getContext('2d'); x.fillStyle = '#fff'; x.fillRect(0, 0, W, H); x.imageSmoothingQuality = 'high';
+  for (let i = 0; i < Math.min(2, pages.length); i++){
+    const im = await blobToCanvas(pages[i].blob), s = L/Math.max(im.width, im.height), w = im.width*s, h = im.height*s;
+    const cy = H*(i ? .64 : .3); x.drawImage(im, (W - w)/2, cy - h/2, w, h);
+    x.strokeStyle = 'rgba(0,0,0,.12)'; x.lineWidth = 2; x.strokeRect((W - w)/2, cy - h/2, w, h);
+  }
+  return makePage(c, .9);
 }
 function busy(sel, msg){ const a = $(sel); unbusy(sel); const b = document.createElement('div'); b.className = 'busy'; b.innerHTML = `<div style="display:grid;place-items:center;gap:14px"><div class="scanline"></div><span>${esc(msg)}</span></div>`; a.appendChild(b); }
 function unbusy(sel){ const b = $(sel + ' .busy'); if (b) b.remove(); }
@@ -947,7 +982,7 @@ function unbusy(sel){ const b = $(sel + ' .busy'); if (b) b.remove(); }
 function openCrop(src, preQ){
   const C = S.crop = { src, q: [[0,0],[src.width,0],[src.width,src.height],[0,src.height]], touched: false, last: '' };
   const ss = S.session, idx = ss.total - ss.queue.length;
-  $('#crop-title').textContent = ss.total > 1 ? `Recadrer · ${idx}/${ss.total}` : 'Recadrer';
+  $('#crop-title').textContent = ss.idcard ? (ss.pages.length ? 'Verso de la carte' : 'Recto de la carte') : ss.total > 1 ? `Recadrer · ${idx}/${ss.total}` : 'Recadrer';
   unbusy('#crop-area'); layoutCrop(); findBorders(C, preQ);
 }
 function cropHint(t){ const h = $('#crop-hint'); h.hidden = !t; if (t) h.innerHTML = `<span class="spin"></span>${esc(t)}`; }
@@ -994,7 +1029,9 @@ function layoutCrop(){
   Object.assign(svg.style, { left: (r.left - ar.left) + 'px', top: (r.top - ar.top) + 'px', width: dw + 'px', height: dh + 'px' });
   svg.setAttribute('viewBox', `0 0 ${dw} ${dh}`); drawOverlay();
 }
-function cropFormat(){ const C = S.crop, mode = lsGet('sd-format') || 'auto'; return resolveRatio(estimateRatio(C.q, C.src.width, C.src.height), mode); }
+function cropFormat(){ const C = S.crop, mode = lsGet('sd-format') || 'auto';
+  if (S.session && S.session.idcard){ const r = estimateRatio(C.q, C.src.width, C.src.height), CR = 85.6/54; return { ratio: r >= 1 ? CR : 1/CR, label: 'Carte' }; }
+  return resolveRatio(estimateRatio(C.q, C.src.width, C.src.height), mode); }
 function showFormat(){ const mode = lsGet('sd-format') || 'auto', fr = cropFormat(); $('#crop-fmt').textContent = mode === 'auto' ? `Auto · ${fr.label === 'Format détecté' ? 'autre' : fr.label}` : mode === 'a4' ? 'Toujours A4' : 'Libre'; }
 $('#crop-fmt').addEventListener('click', () => { const m = lsGet('sd-format') || 'auto', i = FORMAT_MODES.findIndex(x => x[0] === m); lsSet('sd-format', FORMAT_MODES[(i+1) % 3][0]); showFormat();
   toast({ auto: 'Auto : A4 reconnu automatiquement, sinon format mesuré', a4: 'Toujours A4 : chaque page sort au format A4', free: 'Libre : proportions mesurées sur la photo' }[lsGet('sd-format') || 'auto']); });
@@ -1048,7 +1085,8 @@ function openFilt(base){
   const ss = S.session, idx = ss.total - ss.queue.length, rem = ss.queue.length;
   $('#filt-title').textContent = ss.total > 1 ? `Filtre · ${idx}/${ss.total}` : 'Filtre';
   $('#filt-more').innerHTML = rem ? `${I.right}Page suivante (${rem})` : `${I.cam}Ajouter une page`;
-  $('#filt-done').textContent = `Terminer (${ss.pages.length + 1})`;
+  $('#filt-done').textContent = `Terminer (${ss.pages.length + 1})`; $('#filt-more').hidden = !!ss.idcard;
+  if (ss.idcard){ $('#filt-title').textContent = ss.pages.length ? 'Verso' : 'Recto'; $('#filt-done').textContent = ss.pages.length ? 'Terminer' : 'Scanner le verso'; }
   buildPreview(); renderChips(); drawFilt();
 }
 function buildPreview(){ const F = S.filt; F.prev = scaleCanvas(F.base, 1100); F.cache = {}; }
@@ -1073,7 +1111,11 @@ async function commitFilt(){
   const F = S.filt; busy('#filt-area', 'Enregistrement de la page…'); await frame();
   const page = await makePage(applyFilter(F.base, F.f)); S.session.pages.push(page); unbusy('#filt-area');
 }
-$('#filt-done').addEventListener('click', async () => { await commitFilt(); S.session.queue = []; finishSession(); });
+$('#filt-done').addEventListener('click', async () => {
+  await commitFilt();
+  if (S.session.idcard && S.session.pages.length === 1){ $('#filt').hidden = true; toast('Retournez la carte : photo du verso.');
+    if (LIVE_CAM) openCam(); else { $('#crop').hidden = false; busy('#crop-area', 'Photo du verso…'); inCam.click(); waitPicker(); } return; }
+  S.session.queue = []; finishSession(); });
 $('#filt-more').addEventListener('click', async () => {
   await commitFilt();
   if (S.session.queue.length) nextInQueue();
@@ -1135,7 +1177,7 @@ function loopCam(){
   const v = $('#cam-v');
   if (v.videoWidth && !CAM.busy && !CAM.auto){ // photo first: borders are found after the shot
     CAM.quad = null; drawCamOverlay();
-    $('#cam-hint').textContent = CAM.mode === 'batch' ? `Lot · ${S.session && S.session.batch ? S.session.batch.length : 0} page(s) · appuyez pour chaque page` : 'Cadrez le document, puis appuyez';
+    $('#cam-hint').textContent = S.session && S.session.idcard ? `Carte : ${S.session.pages.length ? 'verso' : 'recto'} · cadrez puis appuyez` : CAM.mode === 'batch' ? `Lot · ${S.session && S.session.batch ? S.session.batch.length : 0} page(s) · appuyez pour chaque page` : 'Cadrez le document, puis appuyez';
   } else if (v.videoWidth && !CAM.busy){
     const sc = Math.min(1, 360/Math.max(v.videoWidth, v.videoHeight)), c = mk(v.videoWidth*sc, v.videoHeight*sc); c.getContext('2d').drawImage(v, 0, 0, c.width, c.height);
     const q = detectCorners(c, 360), full = q && q.map(([x, y]) => [x/sc, y/sc]);
@@ -1192,8 +1234,11 @@ function shareSheet(d){
     <div class="menu">
       <button data-s="pdf"><span class="ico">${I.chat}</span><span>Envoyer en PDF<small>${d.pages.length} page${d.pages.length > 1 ? 's' : ''} · format A4 · poids réduit</small></span></button>
       <button data-s="jpg"><span class="ico">${I.img}</span><span>Envoyer en images JPG<small>Une photo par page, lisible directement dans la discussion</small></span></button>
+      ${hasClaude ? '' : `<button data-s="link"><span class="ico">${I.link}</span><span>Créer un lien sécurisé<small>Lien privé qui expire, sans pièce jointe</small></span></button>`}
     </div><div class="progress" hidden><i></i></div><div id="sh-ready"></div>`, el => el.addEventListener('click', async e => {
-    const b = e.target.closest('[data-s]'); if (!b || b.disabled) return; $$('[data-s]', el).forEach(x => x.disabled = true);
+    const b = e.target.closest('[data-s]'); if (!b || b.disabled) return;
+    if (b.dataset.s === 'link'){ closeSheet(); return linkSheet(d); }
+    $$('[data-s]', el).forEach(x => x.disabled = true);
     const pr = $('.progress', el); pr.hidden = false; let files;
     try {
       if (b.dataset.s === 'pdf'){ const blob = await buildPdf(d.pages.map(p => p.blob), { format: 'a4', quality: 'standard' }, f => $('i', pr).style.width = f*100 + '%');
@@ -1363,6 +1408,153 @@ async function syncNow(){
   if (S.screen === 'home') renderHome(); else if (S.screen === 'doc'){ if (curDoc()) renderDoc(); else { show('home'); renderHome(); } }
 }
 
+/* ---------- AI: Gemini (installed app, signed in) or Claude (inside Claude) ---------- */
+async function fnErrDetail(error, fallback=''){ try { if (error && error.context && error.context.json){ const j = await error.context.json(); return [j.error, j.detail].filter(Boolean).join(' '); } } catch(_){} return fallback; }
+const blobB64 = b => new Promise((res, rej) => { const r = new FileReader(); r.onload = () => res(String(r.result).split(',')[1]); r.onerror = rej; r.readAsDataURL(b); });
+const aiAvailable = () => hasClaude || aiReady();
+const ocrPrompt = batch => `Tu es un moteur OCR. Voici ${batch.length} image(s) de pages scannées, dans l'ordre : ${batch.map(i => 'page ' + (i+1)).join(', ')}.
+Transcris fidèlement tout le texte visible, dans sa langue d'origine, sans traduire, résumer ni corriger.
+Avant chaque page, écris une ligne exactement de la forme : --- Page N ---
+Garde les retours à la ligne, les listes et les titres. Pour un tableau, mets une ligne par rangée et sépare les cellules par " | ".
+Si un passage est illisible, écris [illisible]. Réponds uniquement avec le texte transcrit.`;
+function aiErr(e){
+  const m = String((e && (e.message || e.code)) || '');
+  if (e && e.code === 'login') return "Connectez-vous (bouton « Se connecter » sur l'accueil) pour utiliser l'IA.";
+  if (e && e.code === 'not_granted') return "Accès à Claude refusé pour cette page.";
+  if (e && (e.code === 'unavailable' || e.code === 'images_unavailable')) return "L'IA n'est pas disponible dans cette vue.";
+  if (/needs_billing/.test(m)) return "Cette fonction IA demande d'activer la facturation sur la clé Gemini (Google AI Studio, rubrique Billing). Le reste de l'IA marche sans.";
+  if (/busy|503|429|quota/i.test(m)) return "L'IA est très demandée en ce moment. Réessayez dans une minute.";
+  if (/timeout/i.test(m)) return "L'IA a mis trop de temps à répondre. Réessayez avec moins de pages.";
+  return "L'IA n'a pas pu répondre. Réessayez.";
+}
+async function aiGenerate(prompt, blobs=[], { json=false } = {}){
+  const imgs = [];
+  for (const b of blobs.slice(0, 6)) imgs.push(await toBlob(scaleCanvas(await blobToCanvas(b), 1600), 'image/jpeg', .85));
+  if (hasClaude){
+    const sample = await CAP.sample; if (!sample) throw { code: 'unavailable' };
+    try { if (json) return await sample.json(prompt, { images: imgs }); return (await sample(prompt, { images: imgs })).text; }
+    catch(e){ throw { code: e && e.code, message: e && e.message }; }
+  }
+  if (!aiReady()) throw { code: 'login' };
+  const images = await Promise.all(imgs.map(async b => ({ data: await blobB64(b), mime: 'image/jpeg' })));
+  const call = CLOUD.sb.functions.invoke('sd-ai', { body: { action: 'generate', prompt, images, json } });
+  const { data, error } = await Promise.race([call, sleep(100000).then(() => ({ error: { message: 'timeout' } }))]);
+  if (error || !data || data.error){ let detail = (data && (data.detail || data.error)) || (error && error.message) || '';
+    detail = await fnErrDetail(error, detail);
+    throw { code: 'ai', message: detail }; }
+  if (!json) return data.text;
+  try { return JSON.parse(String(data.text).replace(/^```(json)?|```$/g, '').trim()); } catch(e){ throw { code: 'ai', message: 'réponse illisible' }; }
+}
+function aiSheet(d){
+  sheet(`<h2>Assistant IA</h2><p class="note">${hasClaude ? "L'IA de Claude lit vos pages." : aiReady() ? "L'IA Gemini lit vos pages. Vérifiez toujours les informations importantes." : "Connectez-vous pour utiliser l'IA Gemini. La lecture simple du texte marche sans compte."}</p><div class="menu">
+    <button data-a="extract"><span class="ico">${I.spark}</span><span>Infos clés du document<small>N° de BL, conteneurs, montants, dates… exportables vers Excel</small></span></button>
+    <button data-a="ask"><span class="ico">${I.ask}</span><span>Poser une question<small>« Quel est le montant total ? », « Quelle est la date limite ? »</small></span></button>
+    <button data-a="ocr"><span class="ico">${I.text}</span><span>Texte (OCR)<small>Copier tout le texte des pages</small></span></button>
+  </div>`, el => el.addEventListener('click', e => { const b = e.target.closest('[data-a]'); if (!b) return; closeSheet();
+    const k = b.dataset.a; if (k === 'ocr') return openOcr(d);
+    if (!aiAvailable()) return accountSheet();
+    if (k === 'extract') openExtract(d); else openAsk(d); }));
+}
+const DOC_TYPES = ['Facture', 'Connaissement (BL)', 'Déclaration en douane', 'Bon de livraison', 'Reçu', "Pièce d'identité", 'Courrier', 'Contrat', 'Autre'];
+function openExtract(d){
+  openToolShell('Infos clés', () => openDoc(d.id));
+  const body = $('#tool-body'), pages = d.pages.slice(0, 6);
+  body.innerHTML = `<div class="card"><div class="stat"><h3>${esc(d.name)}</h3><span class="mono muted">${d.pages.length} p.</span></div>
+    <p class="note">L'IA lit ${pages.length < d.pages.length ? `les ${pages.length} premières pages` : d.pages.length > 1 ? 'les pages' : 'la page'} et relève les informations utiles : numéros, dates, parties, montants.</p>
+    <button class="btn primary block" id="ex-go">${I.spark}Analyser le document</button><p class="note" id="ex-st"></p></div><div id="ex-out"></div>`;
+  $('#ex-go').addEventListener('click', async ev => {
+    const b = ev.currentTarget, st = $('#ex-st'); b.disabled = true; st.textContent = "Analyse en cours… (10 à 40 secondes)";
+    const prompt = `Tu analyses un document scanné (${pages.length} page(s)), souvent lié au transit, à la logistique ou à la douane en Afrique de l'Ouest.
+Réponds uniquement en JSON, exactement dans ce format :
+{"type": "${DOC_TYPES.join('|')}", "titre": "titre court pour nommer le fichier, ex. Facture MSC 4521 du 12/10/2026", "resume": "2 phrases maximum", "champs": [{"label": "...", "valeur": "..."}]}
+Dans "champs", relève toutes les informations utiles présentes : numéros (facture, BL, conteneur, plomb, déclaration, commande), dates, expéditeur, destinataire, transporteur, navire et voyage, ports de chargement et de déchargement, poids, nombre de colis, marchandise, montants avec leur devise, références client, et pour une pièce d'identité : nom, prénoms, numéro, dates de naissance et d'expiration.
+Recopie chaque valeur exactement comme elle est écrite. N'invente rien : une information absente n'apparaît pas.`;
+    try {
+      const r = await aiGenerate(prompt, pages.map(p => p.blob), { json: true });
+      const champs = Array.isArray(r.champs) ? r.champs.filter(c => c && c.label && c.valeur != null && String(c.valeur).trim()) : [];
+      const type = DOC_TYPES.includes(r.type) ? r.type : 'Autre', titre = String(r.titre || '').trim().slice(0, 90);
+      st.textContent = `${champs.length} information${champs.length > 1 ? 's' : ''} trouvée${champs.length > 1 ? 's' : ''}. Vérifiez-les avant de les utiliser.`;
+      const out = $('#ex-out');
+      out.innerHTML = `<div class="card"><div class="stat"><span class="chip">${esc(type)}</span></div>${titre ? `<h3>${esc(titre)}</h3>` : ''}${r.resume ? `<p class="note">${esc(r.resume)}</p>` : ''}
+        ${champs.length ? `<div style="overflow-x:auto"><table class="kv"><tbody>${champs.map(c => `<tr><td>${esc(c.label)}</td><td>${esc(c.valeur)}</td></tr>`).join('')}</tbody></table></div>` : '<p class="note">Aucune information structurée trouvée.</p>'}</div>
+        <div class="grid2">${titre ? `<button class="btn" id="ex-name">Renommer le document</button>` : ''}<button class="btn" id="ex-fold">${I.folder}Ranger dans « ${esc(type)} »</button>
+        <button class="btn" id="ex-csv">${I.dl}Export Excel (.csv)</button><button class="btn" id="ex-copy">${I.copy}Copier</button></div>`;
+      const nm = $('#ex-name'); if (nm) nm.addEventListener('click', async () => { d.name = titre; d.updated = Date.now(); await Store.put(d); toast('Document renommé'); nm.disabled = true; });
+      $('#ex-fold').addEventListener('click', async e2 => { let f = S.folders.find(x => x.name.toLowerCase() === type.toLowerCase());
+        if (!f){ f = { id: uid(), name: type, created: Date.now(), updated: Date.now() }; S.folders.push(f); await Store.putF(f); }
+        d.folderId = f.id; d.updated = Date.now(); await Store.put(d); toast(`Rangé dans « ${type} »`); e2.currentTarget.disabled = true; });
+      const rows = [['Document', d.name], ['Type', type], ...(titre ? [['Titre', titre]] : []), ...champs.map(c => [c.label, c.valeur])];
+      $('#ex-csv').addEventListener('click', () => { const csv = '﻿' + rows.map(r2 => r2.map(v => '"' + String(v).replace(/"/g, '""') + '"').join(';')).join('\r\n');
+        saveFile(safeName(d.name) + ' - infos.csv', new Blob([csv], { type: 'text/csv' })); });
+      $('#ex-copy').addEventListener('click', async () => { const t = rows.map(r2 => r2.join(' : ')).join('\n'); try { await navigator.clipboard.writeText(t); toast('Copié'); } catch(e3){ toast('Copie impossible ici.'); } });
+    } catch(e){ console.error(e); st.textContent = aiErr(e); }
+    b.disabled = false;
+  });
+}
+function openAsk(d){
+  openToolShell('Poser une question', () => openDoc(d.id));
+  const body = $('#tool-body'), pages = d.pages.slice(0, 6), turns = [];
+  body.innerHTML = `<div class="card"><div class="stat"><h3>${esc(d.name)}</h3><span class="mono muted">${d.pages.length} p.</span></div><div class="chat" id="ask-chat"><p class="note">Posez une question sur ce document. L'IA répond seulement à partir de son contenu.</p></div></div>
+    <div class="chips" id="ask-sug">${['Résume ce document', 'Quel est le montant total ?', 'Quels sont les numéros de conteneur ?', 'Quelles dates sont importantes ?', 'Qui est le destinataire ?'].map(q => `<button>${q}</button>`).join('')}</div>
+    <form id="ask-form" class="row" style="flex-wrap:nowrap"><div class="field" style="flex:1"><input id="ask-in" type="text" placeholder="Votre question…" aria-label="Votre question" autocomplete="off"></div><button class="btn primary" id="ask-go" type="submit">Envoyer</button></form>`;
+  const chat = $('#ask-chat'), inp = $('#ask-in'), go = $('#ask-go');
+  const add = (cls, t) => { const p = document.createElement('div'); p.className = 'bub ' + cls; p.textContent = t; chat.appendChild(p); p.scrollIntoView({ block: 'nearest' }); return p; };
+  const ask = async q => {
+    q = q.trim(); if (!q || go.disabled) return; inp.value = ''; if (turns.length === 0) chat.innerHTML = '';
+    add('q', q); const a = add('a', 'Lecture du document…'); go.disabled = true;
+    const hist = turns.slice(-6).map(t => `Question : ${t.q}\nRéponse : ${t.a}`).join('\n\n');
+    const prompt = `Voici un document scanné de ${pages.length} page(s). Réponds en français, de façon précise et brève, uniquement à partir du document. Si l'information n'y figure pas, dis-le clairement. Cite les valeurs exactement comme elles sont écrites.${hist ? '\n\nÉchanges précédents :\n' + hist : ''}\n\nQuestion : ${q}`;
+    try { const t = String(await aiGenerate(prompt, pages.map(p => p.blob))).trim(); a.textContent = t; turns.push({ q, a: t }); }
+    catch(e){ a.textContent = aiErr(e); }
+    go.disabled = false; inp.focus();
+  };
+  $('#ask-form').addEventListener('submit', e => { e.preventDefault(); ask(inp.value); });
+  $('#ask-sug').addEventListener('click', e => { const b = e.target.closest('button'); if (b) ask(b.textContent); });
+}
+async function cleanPage(d, i, btn){
+  if (!aiReady()){ closeSheet(); toast("Connectez-vous pour utiliser le nettoyage par IA."); return accountSheet(); }
+  const p = d.pages[i]; btn.disabled = true; btn.textContent = 'Nettoyage par l\'IA… (jusqu\'à 1 min)';
+  try {
+    const src = await blobToCanvas(p.blob), image = await blobB64(await toBlob(scaleCanvas(src, 2000), 'image/jpeg', .9));
+    const call = CLOUD.sb.functions.invoke('sd-ai', { body: { action: 'clean', image, mime: 'image/jpeg' } });
+    const { data, error } = await Promise.race([call, sleep(100000).then(() => ({ error: { message: 'timeout' } }))]);
+    if (error || !data || !data.image) throw { code: 'ai', message: await fnErrDetail(error, (data && (data.detail || data.error)) || (error && error.message) || '') };
+    const bin = Uint8Array.from(atob(data.image), ch => ch.charCodeAt(0)), im = await blobToCanvas(new Blob([bin], { type: data.mime || 'image/png' }));
+    const out = mk(src.width, src.height); out.getContext('2d').drawImage(im, 0, 0, out.width, out.height); // keep the page size and A4 ratio
+    const cleaned = await makePage(out, .88), u = URL.createObjectURL(cleaned.blob);
+    sheet(`<h2>Résultat du nettoyage</h2><p class="note">Comparez attentivement : l'IA ne doit avoir changé aucun chiffre, nom ni tampon.</p>
+      <div class="cmp"><figure><img alt="Avant" src="${fullUrl(p)}"><figcaption>Avant</figcaption></figure><figure><img alt="Après" src="${u}"><figcaption>Après</figcaption></figure></div>
+      <div class="grid2"><button class="btn" id="cl-no">Garder l'original</button><button class="btn primary" id="cl-ok">Utiliser la version nettoyée</button></div>`, el => {
+      $('#cl-no', el).addEventListener('click', () => { URL.revokeObjectURL(u); closeSheet(); });
+      $('#cl-ok', el).addEventListener('click', async () => { d.pages[i] = cleaned; d.updated = Date.now(); await Store.put(d); closeSheet(); renderDoc(); toast('Page nettoyée'); });
+    });
+  } catch(e){ console.error(e); btn.disabled = false; btn.innerHTML = `${I.spark}Nettoyer avec l'IA (reflets, plis, taches)`; toast(aiErr(e)); }
+}
+/* Private link: the PDF goes to the user's own storage, the link expires by itself. */
+function linkSheet(d){
+  if (!aiReady()){ toast('Connectez-vous pour créer des liens de partage.'); return accountSheet(); }
+  sheet(`<h2>Lien sécurisé</h2><p class="note">Toute personne qui a le lien peut ouvrir ce PDF jusqu'à son expiration. Le lien est difficile à deviner et n'apparaît nulle part publiquement.</p>
+    <div class="field"><label class="label" for="ln-exp">Le lien expire dans</label><select id="ln-exp"><option value="86400">24 heures</option><option value="604800" selected>7 jours</option><option value="2592000">30 jours</option></select></div>
+    <button class="btn primary block" id="ln-go">${I.link}Créer le lien</button><div id="ln-out"></div>`, el => {
+    $('#ln-go', el).addEventListener('click', async ev => {
+      const b = ev.currentTarget, out = $('#ln-out', el), secs = +$('#ln-exp', el).value; b.disabled = true; b.textContent = 'Préparation du PDF…';
+      try {
+        const blob = await buildPdf(d.pages.map(p => p.blob), { format: 'a4', quality: 'standard' }), name = safeName(d.name) + '.pdf';
+        const path = `${CLOUD.user.id}/shares/${uid()}${uid()}.pdf`, bucket = CLOUD.sb.storage.from('scans');
+        b.textContent = 'Envoi…';
+        const up = await bucket.upload(path, blob, { contentType: 'application/pdf', upsert: false }); if (up.error) throw up.error;
+        const sg = await bucket.createSignedUrl(path, secs, { download: name }); if (sg.error) throw sg.error;
+        const url = sg.data.signedUrl, until = fmtDate(Date.now() + secs*1000);
+        out.innerHTML = `<div class="card"><div class="field"><label class="label" for="ln-url">Lien (valable jusqu'au ${until})</label><input id="ln-url" type="text" readonly value="${esc(url)}"></div>
+          <div class="grid2"><button class="btn" id="ln-copy">${I.copy}Copier</button><button class="btn primary" id="ln-share">${I.share}Envoyer</button></div></div>`;
+        $('#ln-copy', el).addEventListener('click', async () => { try { await navigator.clipboard.writeText(url); toast('Lien copié'); } catch(e){ const i2 = $('#ln-url', el); i2.focus(); i2.select(); toast('Lien sélectionné : copiez-le.'); } });
+        $('#ln-share', el).addEventListener('click', async () => { if (navigator.share){ try { await navigator.share({ title: d.name, text: `${d.name} (lien valable jusqu'au ${until})`, url }); } catch(e){} } else { try { await navigator.clipboard.writeText(url); toast('Lien copié : collez-le dans WhatsApp.'); } catch(e){} } });
+        b.textContent = 'Lien créé';
+      } catch(e){ console.error(e); b.disabled = false; b.innerHTML = `${I.link}Créer le lien`; toast(authMsg(e)); }
+    });
+  });
+}
+
 /* ---------- document view ---------- */
 function openDoc(id){ S.docId = id; renderDoc(); show('doc'); }
 function renderDoc(){
@@ -1378,7 +1570,7 @@ $('#doc-pages').addEventListener('click', e => { const b = e.target.closest('.pg
 $('#docbar').addEventListener('click', e => {
   const b = e.target.closest('[data-d]'); if (!b) return; const d = curDoc(); const k = b.dataset.d;
   if (k === 'share') shareSheet(d);
-  else if (k === 'ocr') openOcr(d);
+  else if (k === 'ocr') aiSheet(d);
   else if (k === 'pdf') exportSheet(d);
   else if (k === 'sign') openTool('sign', { doc: d });
   else if (k === 'more') moreSheet(d);
@@ -1390,6 +1582,7 @@ function pageSheet(i){
     <div class="grid2">
       <button class="btn" data-p="rot">${I.rot}Pivoter</button>
       <button class="btn" data-p="jpg">${I.dl}Exporter JPG</button>
+      ${hasClaude ? '' : `<button class="btn" data-p="clean" style="grid-column:1/-1">${I.spark}Nettoyer avec l'IA (reflets, plis, taches)</button>`}
       <button class="btn" data-p="left" ${i === 0 ? 'disabled' : ''}>${I.left}Avancer</button>
       <button class="btn" data-p="right" ${i === d.pages.length - 1 ? 'disabled' : ''}>Reculer${I.right}</button>
     </div>
@@ -1397,6 +1590,7 @@ function pageSheet(i){
     const b = e.target.closest('[data-p]'); if (!b || b.disabled) return; const k = b.dataset.p;
     if (k === 'rot'){ b.disabled = true; const c = rotate90(await blobToCanvas(p.blob), 1); const np = await makePage(c, .9); d.pages[i] = np; }
     else if (k === 'jpg'){ await saveFile(`${safeName(d.name)} - page ${i+1}.jpg`, p.blob); return; }
+    else if (k === 'clean'){ return cleanPage(d, i, b); }
     else if (k === 'left'){ [d.pages[i-1], d.pages[i]] = [d.pages[i], d.pages[i-1]]; }
     else if (k === 'right'){ [d.pages[i+1], d.pages[i]] = [d.pages[i], d.pages[i+1]]; }
     else if (k === 'del'){ if (!arm(b, 'Confirmer la suppression')) return; d.pages.splice(i, 1); }
@@ -1424,6 +1618,7 @@ function exportSheet(d){
 }
 function moreSheet(d){
   sheet(`<h2>${esc(d.name)}</h2><div class="menu">
+    <button data-m="pw"><span class="ico">${I.lock}</span><span>Protéger par mot de passe<small>Le PDF demandera le mot de passe à l'ouverture</small></span></button>
     <button data-m="wm"><span class="ico">${I.stamp}</span><span>Ajouter un filigrane<small>Texte en diagonale sur chaque page</small></span></button>
     <button data-m="cp"><span class="ico">${I.zip}</span><span>Exporter en PDF compressé<small>Pour l'envoi par e-mail ou WhatsApp</small></span></button>
     <button data-m="jpg"><span class="ico">${I.img}</span><span>Exporter les pages en JPG<small>Un fichier par page</small></span></button>
@@ -1436,6 +1631,7 @@ function moreSheet(d){
     else if (k === 'cp'){ closeSheet(); openTool('compress', { doc: d }); }
     else if (k === 'jpg'){ for (let i = 0; i < d.pages.length; i++){ const ok = await saveFile(`${safeName(d.name)} - page ${i+1}.jpg`, d.pages[i].blob); if (!ok) break; await sleep(300); } }
     else if (k === 'mv'){ closeSheet(); moveSheet(d); }
+    else if (k === 'pw'){ closeSheet(); openTool('protect', { doc: d }); }
     else if (k === 'add'){ closeSheet(); scanSheet(d.id); }
     else if (k === 'dup'){ const n = { ...d, id: uid(), name: d.name + ' (copie)', sample: false, created: Date.now(), updated: Date.now(), pages: d.pages.map(p => ({ ...p, id: uid() })) }; S.docs.push(n); await Store.put(n); closeSheet(); openDoc(n.id); toast('Document dupliqué'); }
     else if (k === 'del'){ if (!arm(b, 'Confirmer : supprimer définitivement')) return; await Store.del(d.id); S.docs = S.docs.filter(x => x !== d); closeSheet(); show('home'); renderHome(); toast('Document supprimé'); }
@@ -1455,7 +1651,17 @@ async function openOcr(d){
     <div class="grid2"><button class="btn" id="ocr-copy">${I.copy}Copier</button><button class="btn" id="ocr-txt">${I.dl}Fichier .txt</button></div>`;
   const sample = await CAP.sample; const go = $('#ocr-go'), st = $('#ocr-status');
   const lim = sample ? await sample.limits().catch(() => null) : null;
-  const useClaude = !!(sample && lim && lim.images), useTess = !useClaude && !hasClaude;
+  const useClaude = !!(sample && lim && lim.images), useGem = !useClaude && !hasClaude && aiReady(), useTess = !useClaude && !hasClaude && !useGem;
+  if (useGem){ $('#ocr-note').textContent = "Le texte est lu par l'IA Gemini : toutes langues, écriture manuscrite, tableaux. Il reste modifiable avant copie.";
+    go.addEventListener('click', async e => { e.stopImmediatePropagation(); if (go.dataset.run) return; go.dataset.run = '1'; go.disabled = true;
+      const sel = $('#ocr-pages').value, idx = sel === 'all' ? d.pages.map((_, i) => i) : [+sel], out = $('#ocr-out'); out.value = ''; let acc = '';
+      try { for (let s0 = 0; s0 < idx.length; s0 += 4){ const batch = idx.slice(s0, s0 + 4);
+          st.textContent = `Lecture des pages ${batch[0]+1}${batch.length > 1 ? '–' + (batch[batch.length-1]+1) : ''} sur ${d.pages.length}…`;
+          const text = await aiGenerate(ocrPrompt(batch), batch.map(i => d.pages[i].blob)); acc += String(text).trim() + '\n\n'; out.value = acc; }
+        st.textContent = 'Texte extrait. Vous pouvez le corriger avant de le copier.';
+      } catch(err){ st.textContent = aiErr(err); }
+      delete go.dataset.run; go.disabled = false; }); }
+  else if (!hasClaude) $('#ocr-note').textContent = "Lecture du texte en français et en anglais. Connectez-vous pour une lecture par IA bien plus précise (manuscrit, tableaux, toutes langues).";
   if (!useClaude && !useTess){ go.disabled = true; st.textContent = "La reconnaissance de texte n'est pas disponible dans cette vue (elle passe par votre compte Claude)."; }
   let ctl = null, tessStop = false, tessRun = false;
   if (useTess) go.addEventListener('click', async e => {
@@ -1513,9 +1719,12 @@ const TOOLS = [
   ['compress', 'Compresser', 'Réduire le poids d\'un PDF', I.zip],
   ['sign', 'Signer', 'Dessiner et placer votre signature', I.pen],
   ['watermark', 'Filigrane', 'Marquer « Copie », « Confidentiel »…', I.stamp],
+  ['split', 'Découper', 'Extraire ou séparer des pages', I.cut],
+  ['organize', 'Organiser', 'Réordonner, pivoter, supprimer des pages', I.grid],
+  ['protect', 'Mot de passe', 'Protéger un PDF à l\'ouverture', I.lock],
 ];
 $('#toolgrid').innerHTML = TOOLS.map(([k, t, p, ic]) => `<button class="tool" data-t="${k}"><span class="ico">${ic}</span><h3>${t}</h3><p>${p}</p></button>`).join('');
-$('#toolgrid').addEventListener('click', e => { const b = e.target.closest('.tool'); if (!b) return; if (b.dataset.t === 'importpdf') tool_importpdf(); else openTool(b.dataset.t, {}); });
+$('#toolgrid').addEventListener('click', e => { const b = e.target.closest('.tool'); if (!b) return; if (b.dataset.t === 'importpdf') tool_importpdf(); else if (b.dataset.t === 'organize'){ toast('Choisissez le PDF : ses pages deviennent modifiables, puis exportez-le.'); tool_importpdf(); } else openTool(b.dataset.t, {}); });
 
 let toolBack = null;
 function openToolShell(title, back){ $('#tool-title').textContent = title; toolBack = back; show('tool'); }
@@ -1523,7 +1732,7 @@ $('#tool-back').addEventListener('click', () => { const b = toolBack; toolBack =
 function openTool(k, opts){
   const back = opts.doc ? () => openDoc(opts.doc.id) : () => show('tools');
   const t = TOOLS.find(x => x[0] === k); openToolShell(t[1], back);
-  ({ img2pdf: tool_img2pdf, merge: tool_merge, compress: tool_compress, sign: tool_sign, watermark: tool_watermark })[k]($('#tool-body'), opts);
+  ({ img2pdf: tool_img2pdf, merge: tool_merge, compress: tool_compress, sign: tool_sign, watermark: tool_watermark, split: tool_split, protect: tool_protect })[k]($('#tool-body'), opts);
 }
 /* file pickers */
 let pdfCb = null; const inPdf = $('#in-pdf');
@@ -1621,6 +1830,60 @@ function tool_compress(body, opts){
     } catch(e){ console.error(e); toast('Ce PDF n\'a pas pu être compressé.'); } b.disabled = false; });
 }
 
+function parseRanges(str, n){
+  const out = []; for (const part of String(str).split(/[,;\s]+/).filter(Boolean)){
+    const m = part.match(/^(\d+)(?:-(\d*))?$/); if (!m) throw new Error(part);
+    const a = +m[1], b = m[2] === undefined ? a : m[2] === '' ? n : +m[2];
+    for (let i = Math.min(a, b); i <= Math.max(a, b); i++) if (i >= 1 && i <= n && !out.includes(i)) out.push(i); }
+  return out;
+}
+function tool_split(body, opts){
+  let src = null, n = 0;
+  body.innerHTML = `<div id="sp-src"></div>
+    <div class="card"><div class="field"><label class="label" for="sp-r">Pages à extraire</label><input id="sp-r" type="text" placeholder="Ex. 1-3, 5, 8-" autocomplete="off"></div>
+      <p class="note" id="sp-n">Choisissez d'abord un PDF.</p>
+      <div class="field"><label class="label" for="sp-mode">Résultat</label><select id="sp-mode"><option value="one">Un seul PDF avec ces pages</option><option value="each">Un PDF par page</option></select></div></div>
+    <button class="btn primary block" id="sp-go" disabled>${I.cut}Découper et télécharger</button>`;
+  sourceBlock($('#sp-src'), { doc: opts.doc, onPick: async s => { src = s;
+    try { const { PDFDocument } = await pdfLib(); n = (await PDFDocument.load(s.bytes, { ignoreEncryption: true })).getPageCount();
+      $('#sp-n').textContent = `Ce PDF a ${n} page${n > 1 ? 's' : ''}. « 8- » veut dire de la page 8 à la fin.`; if (!$('#sp-r').value) $('#sp-r').value = n > 1 ? `1-${n}` : '1'; $('#sp-go').disabled = false; }
+    catch(e){ toast("Ce PDF n'a pas pu être ouvert."); } } });
+  $('#sp-go').addEventListener('click', async ev => { const b = ev.currentTarget; let pages;
+    try { pages = parseRanges($('#sp-r').value, n); } catch(e){ return toast(`« ${e.message} » n'est pas compris. Exemple : 1-3, 5`); }
+    if (!pages.length) return toast('Aucune page dans cette sélection.');
+    b.disabled = true;
+    try { const { PDFDocument } = await pdfLib(); const doc = await PDFDocument.load(src.bytes, { ignoreEncryption: true });
+      const make = async list => { const o = await PDFDocument.create(); (await o.copyPages(doc, list.map(p => p - 1))).forEach(p => o.addPage(p)); return new Blob([await o.save()], { type: 'application/pdf' }); };
+      if ($('#sp-mode').value === 'one') await saveFile(`${src.name} (pages ${$('#sp-r').value.replace(/\s+/g, '')}).pdf`, await make(pages));
+      else for (const p of pages){ const ok = await saveFile(`${src.name} - page ${p}.pdf`, await make([p])); if (!ok) break; await sleep(300); }
+    } catch(e){ console.error(e); toast('Le découpage a échoué : le fichier est peut-être protégé.'); }
+    b.disabled = false; });
+}
+function tool_protect(body, opts){
+  let src = null;
+  body.innerHTML = `<div id="pw-src"></div>
+    <div class="card"><div class="field"><label class="label" for="pw-1">Mot de passe</label><input id="pw-1" type="password" autocomplete="new-password"></div>
+      <div class="field"><label class="label" for="pw-2">Confirmer le mot de passe</label><input id="pw-2" type="password" autocomplete="new-password"></div>
+      <p class="note">Le PDF demandera ce mot de passe à l'ouverture. Protection de base (compatible avec tous les lecteurs PDF) : pour des documents très sensibles, préférez un envoi par lien qui expire. Les pages sont enregistrées en images.</p>
+      <div class="progress" hidden><i></i></div></div>
+    <button class="btn primary block" id="pw-go" disabled>${I.lock}Protéger et télécharger</button>`;
+  sourceBlock($('#pw-src'), { doc: opts.doc, onPick: s => { src = s; $('#pw-go').disabled = false; } });
+  $('#pw-go').addEventListener('click', async ev => {
+    const b = ev.currentTarget, a = $('#pw-1').value, c2 = $('#pw-2').value, pr = $('.progress', body);
+    if (a.length < 4) return toast('Choisissez un mot de passe d\'au moins 4 caractères.');
+    if (a !== c2) return toast('Les deux mots de passe ne sont pas identiques.');
+    if (/[^\u0000-ÿ]/.test(a)) return toast('Évitez les emojis et caractères spéciaux dans le mot de passe.');
+    b.disabled = true; pr.hidden = false;
+    try {
+      let blobs = [];
+      if (opts.doc && src && src.name === safeName(opts.doc.name)) blobs = opts.doc.pages.map(p => p.blob);
+      else { const pdf = await openPdf(src.bytes); for (let i = 1; i <= pdf.numPages; i++){ const r = await renderPdfPage(pdf, i, 2); blobs.push(await toBlob(r.canvas, 'image/jpeg', .85)); $('i', pr).style.width = i/pdf.numPages*50 + '%'; } }
+      const out = await buildPdf(blobs, { format: 'a4', quality: 'standard', password: a }, f => $('i', pr).style.width = 50 + f*50 + '%');
+      await saveFile(src.name + ' (protégé).pdf', out);
+    } catch(e){ console.error(e); toast("La protection n'a pas pu être appliquée."); }
+    b.disabled = false;
+  });
+}
 function tool_watermark(body, opts){
   let src = null;
   body.innerHTML = `<div id="wm-src"></div>
